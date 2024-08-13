@@ -43,4 +43,4 @@ Before you begin, ensure you have met the following requirements:
 
 Contributions are welcome! Feel free to open an issue or submit a pull request if you have suggestions or improvements.
 
-Made with ❤️ by [Sos Sargsyan](https://github.com/sossargsyan)
+Made with ❤️ by [Yuri Khachatryan](https://github.com/YuriKhachatryan)
