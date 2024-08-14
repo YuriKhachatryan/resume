@@ -8,7 +8,7 @@ $dark-theme: mat.define-theme(
   (
     color: (
       theme-type: dark,
-      primary: mat.$magenta-palette,
+      primary: mat.$blue-palette,
     ),
   )
 );
@@ -47,13 +47,13 @@ body {
   // Apply the dark theme by default
   @include mat.all-component-themes($dark-theme);
   .main-header {
-    background-color: #9b4d9b;
+    background-color: #5d4dec;
   }
   .about-card {
     background-image: linear-gradient(
       to bottom,
-      #554151 0,
-      #554151 140px,
+      #5972a0 0,
+      #5972a0 140px,
       transparent 140px,
       transparent 100%
     );
