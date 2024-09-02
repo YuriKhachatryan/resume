@@ -1,5 +1,13 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  OnInit,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -51,6 +59,8 @@ export class AppComponent implements OnInit {
   loading: boolean = true;
   resumeData!: Resume;
 
+  @ViewChild('content', { static: false }) content!: ElementRef;
+
   constructor(private _jsonReaderService: JsonReaderService) {}
 
   toggleTheme() {
@@ -68,6 +78,31 @@ export class AppComponent implements OnInit {
     this._jsonReaderService.getInfo().subscribe((data) => {
       this.resumeData = data;
       this.loading = false;
+    });
+  }
+
+  exportToPDF() {
+    const content = this.content.nativeElement;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    html2canvas(content, { scrollY: -window.scrollY }).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 297; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      pdf.save('resume.pdf');
     });
   }
 }
